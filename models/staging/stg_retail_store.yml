@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: stg_retail_store
+    description:  Retail Store Sales dataset contains 12,575 rows of synthetic data representing sales transactions from a retail store. The dataset includes eight product categories with 25 items per category, each having static prices.
+    columns:
+      - name: transaction_id
+        description: A unique identifier for each transaction.
+        tests:
+          - unique
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+          - dbt_utils.not_empty_string
+      
+      - name: customer_id
+        description: A unique identifier for each customer. 25 unique customers.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+
+      - name: category
+        description: The category of the purchased item.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+
+      - name: item
+        description: The name of the purchased item. 
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+
+      - name: price
+        description: The static price of a single unit of the item.
+        tests:
+          - not_null 
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.0
+              max_value: 1000.0
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: float64
+
+      - name: quantity
+        description: The quantity of the item purchased. 
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 1.0
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: float64
+
+      - name: total_spent
+        description: The total amount spent on the transaction. Calculated as Quantity * Price Per Unit.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.0
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: float64
+
+      - name: payment_method
+        description: The method of payment used.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Cash', 'Credit Card', 'Digital Wallet']
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+
+      - name: location
+        description: The location where the transaction occurred.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: string
+
+      - name: transaction_date
+        description: The date of the transaction. Always present and valid.
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+
+      - name: discount_applied
+        description: Indicates if a discount was applied to the transaction. 
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+              quote: false
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: boolean

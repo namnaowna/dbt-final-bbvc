@@ -37,6 +37,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   dbt_final_bbvc:
-    # Applies to all files under models/example/
-    example:
+    staging:
+      +schema: staging
       +materialized: table
+
+tests:
+  dbt_final_bbvc:
+    +severity: warn
+
