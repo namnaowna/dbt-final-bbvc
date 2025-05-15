@@ -19,6 +19,7 @@ models:
           - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: string
+          - dbt_utils.not_empty_string
 
       - name: category
         description: The category of the purchased item.
@@ -26,6 +27,7 @@ models:
           - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: string
+          - dbt_utils.not_empty_string
 
       - name: item
         description: The name of the purchased item. 
@@ -33,6 +35,7 @@ models:
           - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: string
+          - dbt_utils.not_empty_string
 
       - name: price
         description: The static price of a single unit of the item.
@@ -70,6 +73,7 @@ models:
               values: ['Cash', 'Credit Card', 'Digital Wallet']
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: string
+          - dbt_utils.not_empty_string
 
       - name: location
         description: The location where the transaction occurred.
@@ -77,6 +81,7 @@ models:
           - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: string
+          - dbt_utils.not_empty_string
 
       - name: transaction_date
         description: The date of the transaction. Always present and valid.
@@ -94,3 +99,4 @@ models:
               quote: false
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: boolean
+    
