@@ -1,3 +1,7 @@
+{{ config( 
+  materialized = 'table', 
+) }} 
+
 WITH stg_retail_store AS
 (
     SELECT *
