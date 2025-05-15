@@ -39,7 +39,8 @@ models:
   dbt_final_bbvc:
     staging:
       +schema: staging
-      +materialized: table
+      +materialized: view
+    
 
 tests:
   dbt_final_bbvc:

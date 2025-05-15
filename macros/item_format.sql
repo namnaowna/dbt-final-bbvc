@@ -1,4 +1,5 @@
-{%- set category_suffix_map = {
+{% macro clean_item_by_category(item_col, category_col, price_col, start_price=5.0, step=1.5) %}
+  {%- set category_suffix_map = {
     'Beverages': 'BEV',
     'Butchers': 'BUT',
     'Computers and electric accessories': 'CEA',
@@ -7,9 +8,8 @@
     'Furniture': 'FUR',
     'Milk Products': 'MILK',
     'Patisserie': 'PAT'
-} -%}
-
-{% macro clean_item_by_category(item_col, category_col, price_col, start_price=5.0, step=1.5) %}
+    } -%}
+  
   CASE
     {% for category, suffix in category_suffix_map.items() %}
       WHEN {{ item_col }} IS NULL AND {{ category_col }} = '{{ category }}'
