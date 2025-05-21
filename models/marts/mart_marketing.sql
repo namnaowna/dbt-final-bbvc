@@ -4,7 +4,6 @@ WITH mart_marketing AS
         ft.customer_id,
         dp.category,
         dp.item,
-        dp.price,
         ft.quantity,
         ft.location,
         ft.transaction_date,
@@ -17,3 +16,4 @@ WITH mart_marketing AS
 )
 SELECT *
 FROM mart_marketing
+WHERE quantity IS NOT NULL
