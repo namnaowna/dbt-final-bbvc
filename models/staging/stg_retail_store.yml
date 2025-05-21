@@ -79,6 +79,8 @@ models:
         description: The location where the transaction occurred.
         tests:
           - not_null
+          - accepted_values:
+              values: ['Online', 'In-store']
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: string
           - dbt_utils.not_empty_string

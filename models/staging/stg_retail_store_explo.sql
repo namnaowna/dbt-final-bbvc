@@ -102,12 +102,6 @@ WITH retail_store AS
     FROM category_item_format
     WHERE valid_category_item = FALSE
 )
-, check_positive_value AS
-(
-    SELECT price, quantity, total_spent
-    FROM retail_store
-    WHERE price < 0 OR quantity < 0 OR total_spent < 0
-)
 , item_price_pattern AS 
 (
   SELECT 

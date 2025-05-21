@@ -83,4 +83,4 @@ WITH retail_std_name AS
     FROM row_union
 )
 SELECT *
-FROM format_item 
+FROM format_item

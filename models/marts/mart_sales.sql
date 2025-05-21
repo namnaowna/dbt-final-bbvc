@@ -16,3 +16,4 @@ WITH mart_sales AS
 )
 SELECT *
 FROM mart_sales
+WHERE quantity IS NOT NULL
