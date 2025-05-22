@@ -1,6 +1,7 @@
 {{
     config(
-        materialized='incremental'
+        materialized='incremental',
+        unique_key='transaction_id'
     )
 }}
 
@@ -14,7 +15,7 @@ WITH fact_transaction AS
         ft.payment_method,
         ft.location,
         ft.transaction_date,
-        DATETIME(TIMESTAMP(CURRENT_TIMESTAMP()), "Asia/Bangkok") AS update_at
+        CURRENT_DATETIME("Asia/Bangkok") AS update_at
     FROM {{ ref('stg_retail_store_cleaned') }} ft 
         LEFT JOIN {{ ref('int_dim_products') }} dp ON ft.category = dp.category AND ft.item = dp.item AND ft.price = dp.price
 )
@@ -23,6 +24,6 @@ FROM fact_transaction
 
 {% if is_incremental() %}
 
-where update_at >= (select update_at from {{ this }} )
+WHERE transaction_date >= (SELECT MAX(transaction_date) FROM {{ this }})
 
 {% endif %}
