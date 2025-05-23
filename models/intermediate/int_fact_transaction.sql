@@ -1,7 +1,8 @@
 {{
     config(
         materialized='incremental',
-        unique_key='transaction_id'
+        unique_key='transaction_id',
+        merge_exclude_columns = ['update_at']
     )
 }}
 
@@ -24,6 +25,6 @@ FROM fact_transaction
 
 {% if is_incremental() %}
 
-WHERE transaction_date >= (SELECT MAX(transaction_date) FROM {{ this }})
+WHERE update_at >= (SELECT MAX(update_at) FROM {{ this }})
 
 {% endif %}
