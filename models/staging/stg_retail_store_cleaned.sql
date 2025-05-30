@@ -1,5 +1,6 @@
 {{ config( 
-  materialized = 'table', 
+  materialized = 'incremental',
+  merge_exclude_columns = ['updated_at']
 ) }} 
 
 WITH retail_std_name AS
@@ -79,7 +80,8 @@ WITH retail_std_name AS
     {{ clean_item_by_category('item', 'category', 'price', start_price = 5.0, step = 1.5) }} AS item,
     payment_method,
     location,
-    transaction_date
+    transaction_date,
+    CURRENT_DATETIME("Asia/Bangkok") AS updated_at
     FROM row_union
 )
 SELECT *
