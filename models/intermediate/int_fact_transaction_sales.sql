@@ -1,11 +1,11 @@
 {{
     config(
-        materialized='table',
+        materialized='incremental',
         unique_key='transaction_id'
     )
 }}
 
-WITH fact_transaction AS
+WITH fact_transaction_sales AS
 (
     SELECT ft.transaction_id,
         ft.customer_id,
@@ -15,9 +15,9 @@ WITH fact_transaction AS
         ft.payment_method,
         ft.location,
         ft.transaction_date,
-        CURRENT_DATETIME("Asia/Bangkok") AS update_at
+        CURRENT_DATETIME("Asia/Bangkok") AS updated_at
     FROM {{ ref('stg_retail_store_cleaned') }} ft 
-        LEFT JOIN {{ ref('int_dim_products_sales') }} dp ON ft.category = dp.category AND ft.item = dp.item AND ft.price = dp.price
+        LEFT JOIN {{ ref('int_dim_products') }} dp ON ft.category = dp.category AND ft.item = dp.item AND ft.price = dp.price
 )
 SELECT
     ft.transaction_id,
@@ -45,7 +45,7 @@ SELECT
     {% else %}
         CURRENT_DATETIME("Asia/Bangkok") AS updated_at
     {% endif %}
-FROM fact_transaction ft
+FROM fact_transaction_sales ft
 {% if is_incremental() %}
 LEFT JOIN {{ this }} t
     ON ft.transaction_id = t.transaction_id
