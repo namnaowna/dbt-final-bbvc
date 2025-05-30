@@ -1,12 +1,11 @@
 {{
     config(
         materialized='incremental',
-        unique_key='product_id',
-        incremental_strategy = 'merge'
+        unique_key='product_id'
     )
 }}
 
-WITH dim_product AS
+WITH dim_product_sales AS
 (
     SELECT {{ dbt_utils.generate_surrogate_key(['category', 'item']) }} AS product_id,
         category,
@@ -34,7 +33,7 @@ SELECT dp.product_id,
     {% else %}
         CURRENT_DATETIME("Asia/Bangkok") AS updated_at
     {% endif %}
-FROM dim_product dp
+FROM dim_product_sales dp
 {% if is_incremental() %}
     LEFT JOIN {{ this }} t ON dp.product_id = t.product_id
 {% endif %}
