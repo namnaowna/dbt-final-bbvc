@@ -15,9 +15,9 @@ WITH fact_transaction AS
         ft.payment_method,
         ft.location,
         ft.transaction_date,
-        CURRENT_DATETIME("Asia/Bangkok") AS updated_at
+        CURRENT_DATETIME("Asia/Bangkok") AS update_at
     FROM {{ ref('stg_retail_store_cleaned') }} ft 
-        LEFT JOIN {{ ref('int_dim_products') }} dp ON ft.category = dp.category AND ft.item = dp.item AND ft.price = dp.price
+        LEFT JOIN {{ ref('int_dim_products_sales') }} dp ON ft.category = dp.category AND ft.item = dp.item AND ft.price = dp.price
 )
 SELECT
     ft.transaction_id,
