@@ -11,8 +11,8 @@ WITH mart_sales AS
         EXTRACT(DAYOFWEEK FROM ft.transaction_date) AS week_day,
         EXTRACT(YEAR FROM ft.transaction_date) AS year,
         EXTRACT(MONTH FROM ft.transaction_date) AS month
-    FROM {{ ref("int_fact_transaction")}} ft
-        LEFT JOIN {{ ref("int_dim_products") }} dp ON ft.product_id = dp.product_id
+    FROM {{ ref("int_fact_transaction_sales")}} ft
+        LEFT JOIN {{ ref("int_dim_products_sales") }} dp ON ft.product_id = dp.product_id
 )
 SELECT *
 FROM mart_sales
